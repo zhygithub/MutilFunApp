@@ -1,0 +1,112 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.1"
+    defaultConfig {
+        applicationId "zhy.scau.com.personalmemo"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        sign {
+            // 默认local.properties不加入版本控制中
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            def keystore = properties.getProperty("KEY_STORE")
+            def storepasswd = properties.getProperty("KEY_STORE_PASSWORD")
+            def alias = properties.getProperty("KEY_ALIAS")
+            def aliaspasswd = properties.getProperty("KEY_ALIAS_PASSWORD")
+
+            storeFile file(keystore)
+            storePassword(storepasswd)
+            keyAlias alias
+            keyPassword aliaspasswd
+        }
+    }
+
+
+    buildTypes {
+        debug {
+            // 为包名添加后缀，使调试与正式包可以并存
+            applicationIdSuffix ".debug"
+        }
+
+        release {
+            // 读取设置的签名文件
+            signingConfig signingConfigs.sign
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles 'proguard-rules.pro'
+        }
+
+        // 对资源文件进行混淆
+        android.applicationVariants.all { variant ->
+            variant.assemble.doLast {
+                String outname = "";
+                variant.productFlavors.each { productFlavor ->
+                    println("productFlavor:" + productFlavor.name);
+                    outname += productFlavor.name;
+                }
+
+                println("buildType:" + variant.buildType.name);
+                // 是正式版本才进行资源混淆
+                if (variant.buildType.name != 'release') {
+                    return;
+                }
+                variant.outputs.each { output ->
+                    // 注释以下一行可以取消自动资源混淆的方法
+                    runResourceGuard(output.outputFile, outname);
+                }
+
+            }
+        }
+    }
+}
+
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //action bar
+
+    //菜单库
+
+    // 权限控制
+    // eventbus
+    // 网络库
+    compile project(path: ':lib_net')
+    // 图片库
+    compile project(path: ':lib_img')
+    // 工具库
+    compile project(path: ':lib_utils')
+
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.android.support:design:25.0.1'
+    compile 'com.yalantis:contextmenu:1.0.7'
+    compile 'com.mxn.soul:flowingdrawer-core:2.0.0'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.lovedise:permissiongen:0.0.6'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
+    testCompile 'junit:junit:4.12'
+}
+repositories {
+    mavenCentral()
+}

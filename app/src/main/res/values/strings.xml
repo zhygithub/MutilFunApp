@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PersonalMemo</string>
+    <string name="title_activity_kotlin">KotlinActivity</string>
+
+
+    <string name="psw_note_edtinput_hint">请输入密码</string>
+</resources>

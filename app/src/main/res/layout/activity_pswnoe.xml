@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/xj_color_third_yellow"
+    tools:context="zhy.scau.com.personalmemo.bussiness.perform.passwordNote.PSWNoeActivity">
+
+    <zhy.scau.com.personalmemo.bussiness.perform.widget.chart.TachographView
+        android:id="@+id/tachview_try_count"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:background="@color/xj_color_forth_yellow"
+    />
+
+    <EditText
+        android:id="@+id/edt_pswnote_password_input"
+        android:hint="@string/psw_note_edtinput_hint"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:gravity="center"
+        android:textColorHint="@color/xj_color_gray_666666"
+        android:background="@drawable/none"
+        android:layout_alignTop="@id/tachview_try_count"
+        android:layout_marginTop="100dp"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+    />
+    
+    <Button
+        android:id="@+id/btn_confirm_password"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:text="GO"
+        android:textColor="@color/xj_color_white"
+        android:textSize="@dimen/xj_text_size_20"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/edt_pswnote_password_input"
+        android:background="@drawable/circle_p_yellow_n_blue"
+        android:layout_centerHorizontal="true"
+    />
+
+</RelativeLayout>
